@@ -30,14 +30,6 @@ public class Credits : MonoBehaviour
     public void DisplayCredits()
     {
         ScoreCredits.text = TotalCredits.ToString();
-        /*int numberDisplayed = int.Parse(ScoreCredits.text);
-        int numberToChange = numberDisplayed - TotalCredits;
-
-        for (int i = 0; i < numberToChange; i++)
-        {
-            ScoreCredits.text= numberDisplayed--.ToString();
-            numberDisplayed--; 
-        }*/
 
     }
 }
