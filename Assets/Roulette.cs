@@ -10,7 +10,7 @@ public class Roulette : MonoBehaviour
     [SerializeField] private float _rotationTime;
     private float _rotationTimeCounter;
     private float _targetAngle = 0;
-    private float _weight;
+    private bool _isSpinning;
     //[HideInInspector]
     public float result;
     public AnimationCurve animationCurve;
@@ -18,6 +18,7 @@ public class Roulette : MonoBehaviour
     public int bet;
 
     public void SpinRoulette(){
+        _isSpinning = true;
         int n  = WeightedSpin();
         //int n = Random.Range(0,chances.Count); //en cas d'equiprobabilité
 
@@ -37,11 +38,12 @@ public class Roulette : MonoBehaviour
             transform.eulerAngles = new Vector3(0f,0f,angle+startAngle);
             yield return 0;
         }
+        _isSpinning = false;
         transform.eulerAngles = new Vector3(0f,0f,maxAngle+startAngle);
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)){
+        if (Input.GetKeyDown(KeyCode.Space)&&!_isSpinning){
             SpinRoulette();
         }   
     }
