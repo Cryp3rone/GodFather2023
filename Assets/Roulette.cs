@@ -19,7 +19,7 @@ public class Roulette : MonoBehaviour
 
     public void SpinRoulette(){
         int n  = WeightedSpin();
-        //int n = Random.Range(0,chances.Count);
+        //int n = Random.Range(0,chances.Count); //en cas d'equiprobabilité
 
         _targetAngle = 360*n/chances.Count + _MaxNbTurn*360;
         result = Mathf.Floor(bet * chances[n].x);
