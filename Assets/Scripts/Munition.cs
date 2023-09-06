@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public enum ColorMunition
-{
-    BlackMunition = 0,
-    RedMunition
-}
-
 public class Munition : MonoBehaviour
 {
     public TextMeshProUGUI TextMunitionBlack;
@@ -21,14 +15,14 @@ public class Munition : MonoBehaviour
         DisplayMunition();
     }
 
-    public void AddMunition(ColorMunition munition, int ammoToAdd)
+    public void AddMunition(RessourcesEnum munition, int ammoToAdd)
     {
-        if(munition == ColorMunition.BlackMunition)
+        if(munition == RessourcesEnum.BlackMunition)
         {
             BlackMunition += ammoToAdd;
         }
 
-        if (munition == ColorMunition.RedMunition)
+        if (munition == RessourcesEnum.RedMunition)
         {
             RedMunition += ammoToAdd;
         }

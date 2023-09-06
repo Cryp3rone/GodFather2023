@@ -51,10 +51,10 @@ public class RessourcesManagement : MonoBehaviour
         switch (ressource)
         {
             case RessourcesEnum.BlackMunition:
-                Munition.AddMunition(ColorMunition.BlackMunition, quantity);
+                Munition.AddMunition(RessourcesEnum.BlackMunition, quantity);
                 break;
             case RessourcesEnum.RedMunition:
-                Munition.AddMunition(ColorMunition.RedMunition, quantity);
+                Munition.AddMunition(RessourcesEnum.RedMunition, quantity);
                 break;
             case RessourcesEnum.Score:
                 Score.AddScore(quantity);
