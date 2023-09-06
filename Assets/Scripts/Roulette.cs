@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Roulette : MonoBehaviour
 {
@@ -17,7 +18,9 @@ public class Roulette : MonoBehaviour
     public List<Vector2> chances; //(multiplicateur, proba)
     public int bet;
 
-    public void SpinRoulette(){
+    public UnityEvent<float> TriggerRoulette;
+
+    public float SpinRoulette(){
         _isSpinning = true;
         int n  = WeightedSpin();
         //int n = Random.Range(0,chances.Count); //en cas d'equiprobabilité
@@ -26,6 +29,8 @@ public class Roulette : MonoBehaviour
         result = Mathf.Floor(bet * chances[n].x);
 
         StartCoroutine(SpinAnimation(_targetAngle));
+
+        return result;
     }
 
     IEnumerator SpinAnimation(float maxAngle){
@@ -38,6 +43,7 @@ public class Roulette : MonoBehaviour
             transform.eulerAngles = new Vector3(0f,0f,angle+startAngle);
             yield return 0;
         }
+        TriggerRoulette?.Invoke(result);
         _isSpinning = false;
         transform.eulerAngles = new Vector3(0f,0f,maxAngle+startAngle);
     }

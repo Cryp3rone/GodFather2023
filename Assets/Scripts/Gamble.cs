@@ -8,6 +8,9 @@ public class Gamble : MonoBehaviour
     private bool _timeToChooseQuantity = false;
     private bool _timeToChooseType = false;
     private RessourcesEnum typeChosen;
+    public Roulette roulette;
+    private float _multiplicator = 1;
+    private int _quantityGambled;
 
     // Update is called once per frame
     void Update()
@@ -69,15 +72,17 @@ public class Gamble : MonoBehaviour
         }
     }
 
+
     //simulation
-    public void TimeToGamble(bool value)
+    public void TimeToGamble()
     {
-        ReceiveWheelResult(Random.Range(0, 4));
+        StartWheel();
     }
 
-    public void ReceiveWheelResult(int wheelNumber)
+    public void StartWheel()
     {
-        wheelResult = (RessourcesEnum)wheelNumber;
+        int typeToBet = Random.Range(0, 4);
+        wheelResult = (RessourcesEnum)typeToBet;
         Debug.Log("WheelResult:" + wheelResult);
         _timeToChooseType = true;
     }
@@ -100,19 +105,23 @@ public class Gamble : MonoBehaviour
             _timeToChooseQuantity = true;
             return;
         }
+        _quantityGambled = quantity;
 
         Debug.Log("Ressource gambled:"+ wheelResult + " - Quantity:"+ quantity);
         RessourcesManagement.Instance.AddQuantity(wheelResult, -quantity);
-
-        StartCoroutine(AnimWheel(quantity));
+        _multiplicator = roulette.SpinRoulette();
         resetWheelResult();
     }
 
-    private IEnumerator AnimWheel(int quantityGambled)
+
+    public void ReceiveWheelResult()
     {
-        float multiplicator = 1.5f; //placeholder
-        int quantityReceived = (int)(quantityGambled * multiplicator);
-        yield return new WaitForSeconds(3f);
+
+    }
+
+    public void EndSpinResult()
+    {
+        int quantityReceived = (int)(_quantityGambled * _multiplicator);
         Debug.Log("Quantity received:" + quantityReceived);
         RessourcesManagement.Instance.AddQuantity(typeChosen, quantityReceived);
     }
