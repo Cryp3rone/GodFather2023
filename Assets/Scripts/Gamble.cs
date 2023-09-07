@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Gamble : MonoBehaviour
 {
+    public Roulette roulette;
     private RessourcesEnum _randomRessource;
+    private RessourcesEnum _typeChosen;
     private bool _timeToChooseQuantity = false;
     private bool _timeToChooseType = false;
     private bool _timeToSpin = false;
-    private RessourcesEnum _typeChosen;
-    public Roulette roulette;
     private float _multiplicator = 1;
-    private int _quantityGambled;
+    private int _quantityGambled = 0;
     public List<int> quantityGambledList = new List<int>
     {
         100,
@@ -55,8 +55,6 @@ public class Gamble : MonoBehaviour
 
         if (_timeToChooseQuantity)
         {
-            int quantityGambled = 0;
-            // Wait Inputs
             if (Input.GetKeyDown(KeyCode.Y))
             {
                 QuantityGambled(quantityGambledList[0]);
