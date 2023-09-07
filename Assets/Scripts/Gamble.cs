@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Gamble : MonoBehaviour
 {
-    private RessourcesEnum wheelResult;
+    private RessourcesEnum _randomRessource;
     private bool _timeToChooseQuantity = false;
     private bool _timeToChooseType = false;
     private bool _timeToSpin = false;
@@ -93,8 +93,8 @@ public class Gamble : MonoBehaviour
     public void StartWheel()
     {
         int typeToBet = Random.Range(0, 4);
-        wheelResult = (RessourcesEnum)typeToBet;
-        Debug.Log("WheelResult:" + wheelResult);
+        _randomRessource = (RessourcesEnum)typeToBet;
+        Debug.Log("Random Ressource:" + _randomRessource);
         _timeToChooseType = true;
     }
 
@@ -107,7 +107,7 @@ public class Gamble : MonoBehaviour
 
     public void QuantityGambled(int quantity)
     {
-        int ressourceQuantityChosen = RessourcesManagement.Instance.GetQuantity(wheelResult);
+        int ressourceQuantityChosen = RessourcesManagement.Instance.GetQuantity(_randomRessource);
 
         if(ressourceQuantityChosen < quantity)
         {
@@ -123,8 +123,8 @@ public class Gamble : MonoBehaviour
 
     private void StartSpin()
     {
-        Debug.Log("Ressource gambled:" + wheelResult + "Ressource received" + _typeChosen + " - Quantity:" + _quantityGambled);
-        RessourcesManagement.Instance.AddQuantity(wheelResult, -_quantityGambled);
+        Debug.Log("Ressource gambled:" + _randomRessource + " - Ressource received:" + _typeChosen + " - Quantity:" + _quantityGambled);
+        RessourcesManagement.Instance.AddQuantity(_randomRessource, -_quantityGambled);
         _multiplicator = roulette.SpinRoulette();
     }
 
