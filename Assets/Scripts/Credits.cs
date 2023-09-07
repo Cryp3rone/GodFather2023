@@ -15,29 +15,15 @@ public class Credits : MonoBehaviour
         DisplayCredits();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void AddCredits(int creditsToAdd)
     {
         TotalCredits += creditsToAdd;
+        TotalCredits = Mathf.Min(TotalCredits, 99999);
         DisplayCredits();
     }
 
     public void DisplayCredits()
     {
-        ScoreCredits.text = TotalCredits.ToString();
-        /*int numberDisplayed = int.Parse(ScoreCredits.text);
-        int numberToChange = numberDisplayed - TotalCredits;
-
-        for (int i = 0; i < numberToChange; i++)
-        {
-            ScoreCredits.text= numberDisplayed--.ToString();
-            numberDisplayed--; 
-        }*/
-
+        ScoreCredits.text = RessourcesManagement.Instance.GetDisplayNumber(TotalCredits.ToString());
     }
 }

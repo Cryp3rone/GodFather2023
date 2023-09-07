@@ -20,6 +20,7 @@ public class Score : MonoBehaviour
     public void AddScore(int numberToAdd)
     {
         TotalScore += numberToAdd;
+        TotalScore = Mathf.Min(TotalScore, 99999);
         DisplayScore();
     }
 
@@ -31,14 +32,12 @@ public class Score : MonoBehaviour
 
     public void EnemyDead(int point)
     {
-        //TODO: Modifier le calcul du score
-        TotalScore += point;
-        DisplayScore();
+        AddScore(point);
     }
 
     public void DisplayScore()
     {
-        ScoreText.text = TotalScore.ToString();
+        ScoreText.text = RessourcesManagement.Instance.GetDisplayNumber(TotalScore.ToString());
     }
 
 }

@@ -20,19 +20,21 @@ public class Munition : MonoBehaviour
         if(munition == RessourcesEnum.BlackMunition)
         {
             BlackMunition += ammoToAdd;
+            BlackMunition = Mathf.Min(BlackMunition, 99999);
         }
 
         if (munition == RessourcesEnum.RedMunition)
         {
             RedMunition += ammoToAdd;
+            RedMunition = Mathf.Min(RedMunition, 99999);
         }
         DisplayMunition();
     }
 
     public void DisplayMunition()
     {
-        TextMunitionBlack.text = BlackMunition.ToString();
-        TextMunitionRed.text = RedMunition.ToString();
+        TextMunitionBlack.text = RessourcesManagement.Instance.GetDisplayNumber(BlackMunition.ToString());
+        TextMunitionRed.text = RessourcesManagement.Instance.GetDisplayNumber(RedMunition.ToString());
 
     }
 }
