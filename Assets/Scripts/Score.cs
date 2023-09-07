@@ -10,6 +10,12 @@ public class Score : MonoBehaviour
 
     public TextMeshProUGUI ScoreText;
     public int TotalScore = 1000;
+
+    //animation score
+    [SerializeField] private float _animTime;
+    private float _animTimeCounter;
+    private int _lastScore;
+    [SerializeField] private AnimationCurve animationCurve;
     
     void Start()
     {
@@ -19,6 +25,7 @@ public class Score : MonoBehaviour
 
     public void AddScore(int numberToAdd)
     {
+        _lastScore = TotalScore;
         TotalScore += numberToAdd;
         TotalScore = Mathf.Min(TotalScore, 99999);
         DisplayScore();
@@ -37,7 +44,22 @@ public class Score : MonoBehaviour
 
     public void DisplayScore()
     {
-        ScoreText.text = RessourcesManagement.Instance.GetDisplayNumber(TotalScore.ToString());
+        StartCoroutine(AnimateScore());
+        //ScoreText.text = RessourcesManagement.Instance.GetDisplayNumber(TotalScore.ToString());
+    }
+
+    IEnumerator AnimateScore(){
+        _animTimeCounter = 0;
+        int startScore = _lastScore;
+        TotalScore -= startScore;
+        while(_animTimeCounter < _animTime){
+            int score = Mathf.FloorToInt(TotalScore*animationCurve.Evaluate(_animTimeCounter/_animTime));
+            _animTimeCounter += Time.deltaTime;
+            ScoreText.text = RessourcesManagement.Instance.GetDisplayNumber((score+startScore).ToString());
+            yield return 0;
+        }
+        ScoreText.text = RessourcesManagement.Instance.GetDisplayNumber((TotalScore+startScore).ToString());
+        TotalScore += startScore;
     }
 
 }
