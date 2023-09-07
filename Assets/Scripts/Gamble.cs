@@ -7,10 +7,16 @@ public class Gamble : MonoBehaviour
     private RessourcesEnum wheelResult;
     private bool _timeToChooseQuantity = false;
     private bool _timeToChooseType = false;
-    private RessourcesEnum typeChosen;
+    private bool _timeToSpin = false;
+    private RessourcesEnum _typeChosen;
     public Roulette roulette;
     private float _multiplicator = 1;
     private int _quantityGambled;
+
+    private void Start()
+    {
+        TimeToGamble();
+    }
 
     // Update is called once per frame
     void Update()
@@ -20,22 +26,22 @@ public class Gamble : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                typeChosen = RessourcesEnum.Credits;
+                _typeChosen = RessourcesEnum.Credits;
                 TypeChosen();
             }
             if (Input.GetKeyDown(KeyCode.T))
             {
-                typeChosen = RessourcesEnum.Score;
+                _typeChosen = RessourcesEnum.Score;
                 TypeChosen();
             }
             if (Input.GetKeyDown(KeyCode.R))
             {
-                typeChosen = RessourcesEnum.RedMunition;
+                _typeChosen = RessourcesEnum.RedMunition;
                 TypeChosen();
             }
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                typeChosen = RessourcesEnum.BlackMunition;
+                _typeChosen = RessourcesEnum.BlackMunition;
                 TypeChosen();
             }
         }
@@ -47,28 +53,33 @@ public class Gamble : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Y))
             {
                 quantityGambled = 100;
-                _timeToChooseQuantity = false;
                 QuantityGambled(quantityGambled);
             }
             if (Input.GetKeyDown(KeyCode.U))
             {
                 quantityGambled = 200;
-                _timeToChooseQuantity = false;
                 QuantityGambled(quantityGambled);
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
                 quantityGambled = 300;
-                _timeToChooseQuantity = false;
                 QuantityGambled(quantityGambled);
             }
             if (Input.GetKeyDown(KeyCode.O))
             {
                 quantityGambled = 400;
-                _timeToChooseQuantity = false;
                 QuantityGambled(quantityGambled);
             }
 
+        }
+
+        if (_timeToSpin)
+        {
+            if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.V) || Input.GetKeyDown(KeyCode.G))
+            {
+                StartSpin();
+                _timeToSpin = false;
+            }
         }
     }
 
@@ -89,7 +100,7 @@ public class Gamble : MonoBehaviour
 
     public void TypeChosen()
     {
-        Debug.Log("Type to Receive:" + typeChosen);
+        Debug.Log("Type to Receive:" + _typeChosen);
         _timeToChooseType = false;
         _timeToChooseQuantity = true;
     }
@@ -98,31 +109,32 @@ public class Gamble : MonoBehaviour
     {
         int ressourceQuantityChosen = RessourcesManagement.Instance.GetQuantity(wheelResult);
 
-
         if(ressourceQuantityChosen < quantity)
         {
             Debug.Log("Ressources insuffisantes");
             _timeToChooseQuantity = true;
             return;
         }
+        Debug.Log("Quantity chosen: " + quantity);
         _quantityGambled = quantity;
+        _timeToChooseQuantity = false;
+        _timeToSpin = true;
+    }
 
-        Debug.Log("Ressource gambled:"+ wheelResult + " - Quantity:"+ quantity);
-        RessourcesManagement.Instance.AddQuantity(wheelResult, -quantity);
+    private void StartSpin()
+    {
+        Debug.Log("Ressource gambled:" + wheelResult + "Ressource received" + _typeChosen + " - Quantity:" + _quantityGambled);
+        RessourcesManagement.Instance.AddQuantity(wheelResult, -_quantityGambled);
         _multiplicator = roulette.SpinRoulette();
-        resetWheelResult();
     }
 
     public void EndSpinResult()
     {
         int quantityReceived = (int)(_quantityGambled * _multiplicator);
         Debug.Log("Quantity received:" + quantityReceived);
-        RessourcesManagement.Instance.AddQuantity(typeChosen, quantityReceived);
+        RessourcesManagement.Instance.AddQuantity(_typeChosen, quantityReceived);
         _quantityGambled = 0;
+        TimeToGamble(); 
     }
 
-    private void resetWheelResult()
-    {
-        _timeToChooseQuantity = false;
-    }
 }
