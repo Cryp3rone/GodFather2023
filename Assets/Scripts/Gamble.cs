@@ -23,6 +23,11 @@ public class Gamble : MonoBehaviour
     public Image imageBetRessource;
     public Image imageWonRessource;
 
+    //Sounds
+    [SerializeField] private AudioSource bell;
+    [SerializeField] private AudioSource beeps;
+    [SerializeField] private AudioSource cashIn;
+
     private void Start()
     {
         TimeToGamble();
@@ -91,7 +96,10 @@ public class Gamble : MonoBehaviour
     //simulation
     public void TimeToGamble()
     {
-        if (CheckRessources()) StartWheel();
+        if (CheckRessources()){
+            bell.Play();
+            StartWheel();
+        }
         else
         {
             Debug.Log("Pas assez de ressources");
@@ -137,6 +145,7 @@ public class Gamble : MonoBehaviour
     public void TypeChosen()
     {
         Debug.Log("Type to Receive:" + _typeChosen);
+        beeps.Play();
         imageWonRessource.GetComponent<ChangementSymboles>().ChangementSymbole((int)_typeChosen);
         _timeToChooseType = false;
         _timeToChooseQuantity = true;
@@ -156,6 +165,7 @@ public class Gamble : MonoBehaviour
         _quantityGambled = quantity;
         _timeToChooseQuantity = false;
         _timeToSpin = true;
+        cashIn.Play();
     }
 
     private void StartSpin()

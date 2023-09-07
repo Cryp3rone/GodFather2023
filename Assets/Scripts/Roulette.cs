@@ -19,20 +19,29 @@ public class Roulette : MonoBehaviour
 
     public UnityEvent TriggerRoulette;
 
+    //Sound
+    [SerializeField] private AudioSource roulette;
+    [SerializeField] private AudioSource coinDrop;
+    [SerializeField] private AudioSource spotlight;
+    [SerializeField] private AudioSource cheers;
+    [SerializeField] private AudioSource error;
+
     public float SpinRoulette(){
         _isSpinning = true;
         int n  = WeightedSpin();
         //int n = Random.Range(0,chances.Count); //en cas d'equiprobabilité
 
         _targetAngle = 360*n/chances.Count + _MaxNbTurn*360;
-        result = Mathf.Floor(chances[n].x);
+        result = chances[n].x; 
 
         StartCoroutine(SpinAnimation(_targetAngle));
+        StartCoroutine(PlaySounds());
 
         return result;
     }
 
     IEnumerator SpinAnimation(float maxAngle){
+        roulette.Play();
         float startAngle = transform.eulerAngles.z;
         maxAngle -= startAngle;
         _rotationTimeCounter = 0;
@@ -45,6 +54,7 @@ public class Roulette : MonoBehaviour
         TriggerRoulette?.Invoke();
         _isSpinning = false;
         transform.eulerAngles = new Vector3(0f,0f,maxAngle+startAngle);
+        roulette.Stop();
     }
 
     private void Update() {
@@ -66,4 +76,17 @@ public class Roulette : MonoBehaviour
         return 0;
     }
 
+    IEnumerator PlaySounds(){
+        yield return new WaitForSeconds(_rotationTime);
+        if(result!=0){
+            coinDrop.Play();
+            spotlight.Play();
+        }
+        else{
+            error.Play();
+        }
+
+        if(result == chances[chances.Count-1].x) cheers.Play();
+
+    }
 }
