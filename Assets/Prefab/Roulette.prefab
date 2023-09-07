@@ -125,10 +125,16 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   chances:
-  - {x: 1, y: 0}
-  - {x: 6, y: 0.25}
-  - {x: 5, y: 0.25}
-  - {x: 4, y: 0.5}
-  - {x: 3, y: 0}
-  - {x: 2, y: 0}
-  bet: 1
+  - {x: 0, y: 0.1}
+  - {x: 0, y: 0.1}
+  - {x: 0.5, y: 0.1}
+  - {x: 1, y: 0.1}
+  - {x: 1, y: 0.1}
+  - {x: 2, y: 0.1}
+  - {x: 2, y: 0.1}
+  - {x: 3, y: 0.1}
+  - {x: 5, y: 0.1}
+  - {x: 7, y: 0.1}
+  TriggerRoulette:
+    m_PersistentCalls:
+      m_Calls: []

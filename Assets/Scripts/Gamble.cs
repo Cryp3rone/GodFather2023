@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Gamble : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class Gamble : MonoBehaviour
         500,
         1000
     };
+    public Image imageBetRessource;
+    public Image imageWonRessource;
 
     private void Start()
     {
@@ -126,12 +129,15 @@ public class Gamble : MonoBehaviour
             StartCoroutine(WaitTimeToSpin());
             return;
         }
+
+        imageBetRessource.GetComponent<ChangementSymboles>().ChangementSymbole(typeToBet);
         _timeToChooseType = true;
     }
 
     public void TypeChosen()
     {
         Debug.Log("Type to Receive:" + _typeChosen);
+        imageWonRessource.GetComponent<ChangementSymboles>().ChangementSymbole((int)_typeChosen);
         _timeToChooseType = false;
         _timeToChooseQuantity = true;
     }
@@ -164,6 +170,8 @@ public class Gamble : MonoBehaviour
         int quantityReceived = (int)(_quantityGambled * _multiplicator);
         Debug.Log("Quantity received:" + quantityReceived);
         RessourcesManagement.Instance.AddQuantity(_typeChosen, quantityReceived);
+        imageWonRessource.GetComponent<ChangementSymboles>().DisplayImage(false);
+
         _quantityGambled = 0;
         TimeToGamble(); 
     }
