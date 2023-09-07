@@ -9,7 +9,7 @@ public class Score : MonoBehaviour
 {
 
     public TextMeshProUGUI ScoreText;
-    public int TotalScore = 0;
+    public int TotalScore = 1000;
     
     void Start()
     {

@@ -18,22 +18,22 @@ public class Gamble : MonoBehaviour
 
         if (_timeToChooseType)
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 typeChosen = RessourcesEnum.Credits;
                 TypeChosen();
             }
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.T))
             {
                 typeChosen = RessourcesEnum.Score;
                 TypeChosen();
             }
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.R))
             {
                 typeChosen = RessourcesEnum.RedMunition;
                 TypeChosen();
             }
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.Z))
             {
                 typeChosen = RessourcesEnum.BlackMunition;
                 TypeChosen();
@@ -44,25 +44,25 @@ public class Gamble : MonoBehaviour
         {
             int quantityGambled = 0;
             // Wait Inputs
-            if (Input.GetKeyDown(KeyCode.G))
+            if (Input.GetKeyDown(KeyCode.Y))
             {
                 quantityGambled = 100;
                 _timeToChooseQuantity = false;
                 QuantityGambled(quantityGambled);
             }
-            if (Input.GetKeyDown(KeyCode.H))
+            if (Input.GetKeyDown(KeyCode.U))
             {
                 quantityGambled = 200;
                 _timeToChooseQuantity = false;
                 QuantityGambled(quantityGambled);
             }
-            if (Input.GetKeyDown(KeyCode.J))
+            if (Input.GetKeyDown(KeyCode.I))
             {
                 quantityGambled = 300;
                 _timeToChooseQuantity = false;
                 QuantityGambled(quantityGambled);
             }
-            if (Input.GetKeyDown(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.O))
             {
                 quantityGambled = 400;
                 _timeToChooseQuantity = false;
@@ -113,17 +113,12 @@ public class Gamble : MonoBehaviour
         resetWheelResult();
     }
 
-
-    public void ReceiveWheelResult()
-    {
-
-    }
-
     public void EndSpinResult()
     {
         int quantityReceived = (int)(_quantityGambled * _multiplicator);
         Debug.Log("Quantity received:" + quantityReceived);
         RessourcesManagement.Instance.AddQuantity(typeChosen, quantityReceived);
+        _quantityGambled = 0;
     }
 
     private void resetWheelResult()
