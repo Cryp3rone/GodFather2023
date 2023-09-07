@@ -1,11 +1,13 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    [SerializeField] private int health;
     [SerializeField] private float shootingRange;
     [SerializeField] private float shootingSpeed;
     [SerializeField] private GameObject bulletPrefab;
@@ -55,8 +57,11 @@ public class PlayerBehaviour : MonoBehaviour
         if (target != null && Vector2.Distance(transform.position, target.transform.position) < shootingRange)
         {
             RessourcesManagement.Instance.AddQuantity(target.GetComponent<EnemyBehaviour>().type, -1);
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.LookRotation(target.transform.position - transform.position));
-            bullet.transform.DOMove(target.transform.position, 2f).SetEase(Ease.InQuad).OnComplete( () => DestroyTarget(target, bullet));
+            Vector3 dir = target.transform.position - transform.position;
+            var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            var rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+            GameObject bullet = Instantiate(bulletPrefab, transform.position, rotation);
+            bullet.transform.DOMove(target.transform.position, 0.05f).SetEase(Ease.InQuad).OnComplete( () => DestroyTarget(target, bullet));
         }
     }
 
@@ -65,5 +70,30 @@ public class PlayerBehaviour : MonoBehaviour
         Destroy(bullet);
         Destroy(target);
         target = null;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.gameObject.CompareTag("Enemy"))
+            GetDamage();
+    }
+
+    private void GetDamage()
+    {
+        health--;
+
+        if (health <= 0)
+            Debug.Log("End");
+        else
+            tempWype();
+    }
+
+    private void tempWype()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach(GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
     }
 }
