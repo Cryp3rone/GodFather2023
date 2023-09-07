@@ -90,4 +90,15 @@ public class RessourcesManagement : MonoBehaviour
         Munition.DisplayMunition();
     }
 
+    public string GetDisplayNumber(string number)
+    {
+        int length = 5 - number.Length;
+        string displayedNumber = number;
+        for (int i = 0; i < length; i++)
+        {
+            displayedNumber = "0" + displayedNumber;
+        }
+        return displayedNumber;
+    }
+
 }
