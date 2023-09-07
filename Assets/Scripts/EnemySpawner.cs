@@ -10,24 +10,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject ennemyToSpawn;
     [SerializeField] private Transform target;
     
-    private static EnemySpawner instance = null;
     private float spawnRateCountDown; 
-    public static EnemySpawner Instance => instance;
-    public List<GameObject> enemyList = new List<GameObject>();
-
-    private void Awake()
-    {
-        if (instance != null && instance != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        else
-        {
-            instance = this;
-        }
-        DontDestroyOnLoad(this.gameObject);
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -53,7 +36,6 @@ public class EnemySpawner : MonoBehaviour
     {
         Vector3 spawnPos = Random.insideUnitCircle.normalized * spawnRange;
         GameObject spawnedEnemy = Instantiate(ennemyToSpawn, spawnPos, Quaternion.identity);
-        enemyList.Add(spawnedEnemy);
 
         EnemyBehaviour enemy = spawnedEnemy.GetComponent<EnemyBehaviour>();
 
