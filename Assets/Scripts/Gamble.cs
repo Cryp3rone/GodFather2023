@@ -12,6 +12,13 @@ public class Gamble : MonoBehaviour
     public Roulette roulette;
     private float _multiplicator = 1;
     private int _quantityGambled;
+    public List<int> quantityGambledList = new List<int>
+    {
+        100,
+        200,
+        500,
+        1000
+    };
 
     private void Start()
     {
@@ -52,23 +59,19 @@ public class Gamble : MonoBehaviour
             // Wait Inputs
             if (Input.GetKeyDown(KeyCode.Y))
             {
-                quantityGambled = 100;
-                QuantityGambled(quantityGambled);
+                QuantityGambled(quantityGambledList[0]);
             }
             if (Input.GetKeyDown(KeyCode.U))
             {
-                quantityGambled = 200;
-                QuantityGambled(quantityGambled);
+                QuantityGambled(quantityGambledList[1]);
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
-                quantityGambled = 300;
-                QuantityGambled(quantityGambled);
+                QuantityGambled(quantityGambledList[2]);
             }
             if (Input.GetKeyDown(KeyCode.O))
             {
-                quantityGambled = 400;
-                QuantityGambled(quantityGambled);
+                QuantityGambled(quantityGambledList[3]);
             }
 
         }
@@ -87,7 +90,30 @@ public class Gamble : MonoBehaviour
     //simulation
     public void TimeToGamble()
     {
-        StartWheel();
+        if (CheckRessources()) StartWheel();
+        else
+        {
+            Debug.Log("Pas assez de ressources");
+            StartCoroutine(WaitTimeToSpin());
+        }
+    }
+
+    IEnumerator WaitTimeToSpin()
+    {
+        yield return new WaitForSeconds(0.2f);
+        TimeToGamble();
+    }
+
+    private bool CheckRessources()
+    {
+        if(RessourcesManagement.Instance.GetQuantity(RessourcesEnum.Credits) < quantityGambledList[0] &&
+            RessourcesManagement.Instance.GetQuantity(RessourcesEnum.Score) < quantityGambledList[0] &&
+            RessourcesManagement.Instance.GetQuantity(RessourcesEnum.RedMunition) < quantityGambledList[0] &&
+            RessourcesManagement.Instance.GetQuantity(RessourcesEnum.BlackMunition) < quantityGambledList[0])
+        {
+            return false;
+        }
+        return true;
     }
 
     public void StartWheel()
@@ -95,6 +121,13 @@ public class Gamble : MonoBehaviour
         int typeToBet = Random.Range(0, 4);
         _randomRessource = (RessourcesEnum)typeToBet;
         Debug.Log("Random Ressource:" + _randomRessource);
+
+        if(RessourcesManagement.Instance.GetQuantity(_randomRessource) < quantityGambledList[0])
+        {
+            Debug.Log("Pas assez de ressources");
+            StartCoroutine(WaitTimeToSpin());
+            return;
+        }
         _timeToChooseType = true;
     }
 
