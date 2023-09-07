@@ -4,10 +4,26 @@ using UnityEngine;
 
 public class Gamble : MonoBehaviour
 {
-    private RessourcesEnum wheelResult;
+    public Roulette roulette;
+    private RessourcesEnum _randomRessource;
+    private RessourcesEnum _typeChosen;
     private bool _timeToChooseQuantity = false;
     private bool _timeToChooseType = false;
-    private RessourcesEnum typeChosen;
+    private bool _timeToSpin = false;
+    private float _multiplicator = 1;
+    private int _quantityGambled = 0;
+    public List<int> quantityGambledList = new List<int>
+    {
+        100,
+        200,
+        500,
+        1000
+    };
+
+    private void Start()
+    {
+        TimeToGamble();
+    }
 
     // Update is called once per frame
     void Update()
@@ -15,84 +31,114 @@ public class Gamble : MonoBehaviour
 
         if (_timeToChooseType)
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                typeChosen = RessourcesEnum.Credits;
+                _typeChosen = RessourcesEnum.Credits;
                 TypeChosen();
             }
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.T))
             {
-                typeChosen = RessourcesEnum.Score;
+                _typeChosen = RessourcesEnum.Score;
                 TypeChosen();
             }
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.R))
             {
-                typeChosen = RessourcesEnum.RedMunition;
+                _typeChosen = RessourcesEnum.RedMunition;
                 TypeChosen();
             }
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.Z))
             {
-                typeChosen = RessourcesEnum.BlackMunition;
+                _typeChosen = RessourcesEnum.BlackMunition;
                 TypeChosen();
             }
         }
 
         if (_timeToChooseQuantity)
         {
-            int quantityGambled = 0;
-            // Wait Inputs
-            if (Input.GetKeyDown(KeyCode.G))
+            if (Input.GetKeyDown(KeyCode.Y))
             {
-                quantityGambled = 100;
-                _timeToChooseQuantity = false;
-                QuantityGambled(quantityGambled);
+                QuantityGambled(quantityGambledList[0]);
             }
-            if (Input.GetKeyDown(KeyCode.H))
+            if (Input.GetKeyDown(KeyCode.U))
             {
-                quantityGambled = 200;
-                _timeToChooseQuantity = false;
-                QuantityGambled(quantityGambled);
+                QuantityGambled(quantityGambledList[1]);
             }
-            if (Input.GetKeyDown(KeyCode.J))
+            if (Input.GetKeyDown(KeyCode.I))
             {
-                quantityGambled = 300;
-                _timeToChooseQuantity = false;
-                QuantityGambled(quantityGambled);
+                QuantityGambled(quantityGambledList[2]);
             }
-            if (Input.GetKeyDown(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.O))
             {
-                quantityGambled = 400;
-                _timeToChooseQuantity = false;
-                QuantityGambled(quantityGambled);
+                QuantityGambled(quantityGambledList[3]);
             }
 
         }
+
+        if (_timeToSpin)
+        {
+            if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.V) || Input.GetKeyDown(KeyCode.G))
+            {
+                StartSpin();
+                _timeToSpin = false;
+            }
+        }
     }
+
 
     //simulation
-    public void TimeToGamble(bool value)
+    public void TimeToGamble()
     {
-        ReceiveWheelResult(Random.Range(0, 4));
+        if (CheckRessources()) StartWheel();
+        else
+        {
+            Debug.Log("Pas assez de ressources");
+            StartCoroutine(WaitTimeToSpin());
+        }
     }
 
-    public void ReceiveWheelResult(int wheelNumber)
+    IEnumerator WaitTimeToSpin()
     {
-        wheelResult = (RessourcesEnum)wheelNumber;
-        Debug.Log("WheelResult:" + wheelResult);
+        yield return new WaitForSeconds(0.2f);
+        TimeToGamble();
+    }
+
+    private bool CheckRessources()
+    {
+        if(RessourcesManagement.Instance.GetQuantity(RessourcesEnum.Credits) < quantityGambledList[0] &&
+            RessourcesManagement.Instance.GetQuantity(RessourcesEnum.Score) < quantityGambledList[0] &&
+            RessourcesManagement.Instance.GetQuantity(RessourcesEnum.RedMunition) < quantityGambledList[0] &&
+            RessourcesManagement.Instance.GetQuantity(RessourcesEnum.BlackMunition) < quantityGambledList[0])
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public void StartWheel()
+    {
+        int typeToBet = Random.Range(0, 4);
+        _randomRessource = (RessourcesEnum)typeToBet;
+        Debug.Log("Random Ressource:" + _randomRessource);
+
+        if(RessourcesManagement.Instance.GetQuantity(_randomRessource) < quantityGambledList[0])
+        {
+            Debug.Log("Pas assez de ressources");
+            StartCoroutine(WaitTimeToSpin());
+            return;
+        }
         _timeToChooseType = true;
     }
 
     public void TypeChosen()
     {
-        Debug.Log("Type to Receive:" + typeChosen);
+        Debug.Log("Type to Receive:" + _typeChosen);
         _timeToChooseType = false;
         _timeToChooseQuantity = true;
     }
 
     public void QuantityGambled(int quantity)
     {
-        int ressourceQuantityChosen = RessourcesManagement.Instance.GetQuantity(wheelResult);
-
+        int ressourceQuantityChosen = RessourcesManagement.Instance.GetQuantity(_randomRessource);
 
         if(ressourceQuantityChosen < quantity)
         {
@@ -100,25 +146,26 @@ public class Gamble : MonoBehaviour
             _timeToChooseQuantity = true;
             return;
         }
-
-        Debug.Log("Ressource gambled:"+ wheelResult + " - Quantity:"+ quantity);
-        RessourcesManagement.Instance.AddQuantity(wheelResult, -quantity);
-
-        StartCoroutine(AnimWheel(quantity));
-        resetWheelResult();
-    }
-
-    private IEnumerator AnimWheel(int quantityGambled)
-    {
-        float multiplicator = 1.5f; //placeholder
-        int quantityReceived = (int)(quantityGambled * multiplicator);
-        yield return new WaitForSeconds(3f);
-        Debug.Log("Quantity received:" + quantityReceived);
-        RessourcesManagement.Instance.AddQuantity(typeChosen, quantityReceived);
-    }
-
-    private void resetWheelResult()
-    {
+        Debug.Log("Quantity chosen: " + quantity);
+        _quantityGambled = quantity;
         _timeToChooseQuantity = false;
+        _timeToSpin = true;
     }
+
+    private void StartSpin()
+    {
+        Debug.Log("Ressource gambled:" + _randomRessource + " - Ressource received:" + _typeChosen + " - Quantity:" + _quantityGambled);
+        RessourcesManagement.Instance.AddQuantity(_randomRessource, -_quantityGambled);
+        _multiplicator = roulette.SpinRoulette();
+    }
+
+    public void EndSpinResult()
+    {
+        int quantityReceived = (int)(_quantityGambled * _multiplicator);
+        Debug.Log("Quantity received:" + quantityReceived);
+        RessourcesManagement.Instance.AddQuantity(_typeChosen, quantityReceived);
+        _quantityGambled = 0;
+        TimeToGamble(); 
+    }
+
 }
