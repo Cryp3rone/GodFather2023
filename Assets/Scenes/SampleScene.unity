@@ -3957,7 +3957,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScoreText: {fileID: 1057608521}
   TotalScore: 90
-  _animTime: 0.5
+  _animTime: 2
   animationCurve:
     serializedVersion: 2
     m_Curve:
@@ -3971,7 +3971,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
+      time: 0.25
       value: 1
       inSlope: 0
       outSlope: 0
@@ -5583,8 +5583,8 @@ MonoBehaviour:
   TextMunitionRed: {fileID: 1113964092}
   BlackMunition: 0
   RedMunition: 0
-  _animTimeBlack: 0.5
-  _animTimeRed: 0.5
+  _animTimeBlack: 2
+  _animTimeRed: 2
   animationCurve:
     serializedVersion: 2
     m_Curve:
@@ -5598,7 +5598,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
+      time: 0.25
       value: 1
       inSlope: 0
       outSlope: 0
@@ -9350,7 +9350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScoreCredits: {fileID: 281106088}
   TotalCredits: 90
-  _animTime: 0.5
+  _animTime: 2
   animationCurve:
     serializedVersion: 2
     m_Curve:
@@ -9364,7 +9364,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
+      time: 0.25
       value: 1
       inSlope: 0
       outSlope: 0
