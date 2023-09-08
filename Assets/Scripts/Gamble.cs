@@ -205,6 +205,26 @@ public class Gamble : MonoBehaviour
         {
             Debug.Log("Ressources insuffisantes");
             _hasChosenQuantity = false;
+            switch(quantity)
+            {
+                case 100:
+                    imagesQuantity[0].sprite = spritesQuantity100[0];
+                    imagesQuantity[0].SetNativeSize();
+                    break;
+                    case 200:
+                    imagesQuantity[1].sprite = spritesQuantity200[0];
+                    imagesQuantity[1].SetNativeSize();
+                    break;
+                    case 500:
+                    imagesQuantity[2].sprite = spritesQuantity500[0];
+                    imagesQuantity[2].SetNativeSize();
+                    break;
+                    case 1000:
+                    imagesQuantity[3].sprite = spritesQuantity1000[0];
+                    imagesQuantity[3].SetNativeSize();
+                    break;
+            }
+
             return;
         }
         Debug.Log("Quantity chosen: " + quantity);
