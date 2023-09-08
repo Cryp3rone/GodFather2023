@@ -10,8 +10,10 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private int health;
     [SerializeField] private float shootingRange;
     [SerializeField] private float shootingSpeed;
+    [SerializeField] private float bulletSpeed;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private EnemySpawner enemySpawner;
+    [SerializeField] private GameOverScript gameOverScript;
 
     private float shootingCountDown;
     private GameObject target;
@@ -61,7 +63,7 @@ public class PlayerBehaviour : MonoBehaviour
             var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             var rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
             GameObject bullet = Instantiate(bulletPrefab, transform.position, rotation);
-            bullet.transform.DOMove(target.transform.position, 0.05f).SetEase(Ease.InQuad).OnComplete( () => DestroyTarget(target, bullet));
+            bullet.transform.DOMove(target.transform.position, bulletSpeed).SetEase(Ease.InQuad).OnComplete( () => DestroyTarget(target, bullet));
         }
     }
 
@@ -83,9 +85,15 @@ public class PlayerBehaviour : MonoBehaviour
         health--;
 
         if (health <= 0)
-            Debug.Log("End");
-        else
+        {
+            enemySpawner.canSpawn = false;
             tempWype();
+            gameOverScript.Setup(RessourcesManagement.Instance.GetQuantity(RessourcesEnum.Score));
+        }
+        else
+        {
+            tempWype();
+        }
     }
 
     private void tempWype()
