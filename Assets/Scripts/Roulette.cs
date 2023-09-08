@@ -58,9 +58,9 @@ public class Roulette : MonoBehaviour
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)&&!_isSpinning){
-            SpinRoulette();
-        }   
+        //if (Input.GetKeyDown(KeyCode.Space)&&!_isSpinning){
+        //    SpinRoulette();
+        //}   
     }
 
     private int WeightedSpin(){
