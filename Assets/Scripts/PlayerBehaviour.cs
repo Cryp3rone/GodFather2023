@@ -1,9 +1,8 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -14,10 +13,9 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private float bulletSpeed;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private EnemySpawner enemySpawner;
-    [SerializeField] private GameOverScript gameOverScript;
     [SerializeField] private Score scoreSystem;
     [SerializeField] private Sprite bigLife, littleLife;
-    [SerializeField] private SpriteRenderer bigLifeRenderer, littleLifeRenderer;
+    [SerializeField] private Image bigRightLifeRenderer, bigleftLifeRenderer, littleLifeRenderer;
 
     private float shootingCountDown;
     private GameObject target;
@@ -92,12 +90,22 @@ public class PlayerBehaviour : MonoBehaviour
         if (health <= 0)
         {
             enemySpawner.canSpawn = false;
+            littleLifeRenderer.sprite = littleLife;
             tempWype();
-            gameOverScript.Setup(RessourcesManagement.Instance.GetQuantity(RessourcesEnum.Score));
         }
         else
         {
             tempWype();
+            switch (health)
+            {
+                case 1:
+                    bigleftLifeRenderer.sprite = bigLife;
+                    break;
+
+                case 2:
+                    bigRightLifeRenderer.sprite = bigLife;
+                    break;
+            }
         }
     }
 

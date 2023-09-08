@@ -7,7 +7,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float spawnRange;
     [SerializeField] private float spawnRate;
     [SerializeField] private float spawnDifference;
-    [SerializeField] private GameObject ennemyToSpawn;
+    [SerializeField] private GameObject ennemyRedSpawn;
+    [SerializeField] private GameObject ennemyBlackSpawn;
     [SerializeField] private Transform target;
     
     private float spawnRateCountDown;
@@ -41,12 +42,12 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnnemies()
     {
         Vector3 spawnPos = Random.insideUnitCircle.normalized * spawnRange;
-        GameObject spawnedEnemy = Instantiate(ennemyToSpawn, spawnPos, Quaternion.identity);
+        bool randType = Random.Range(0, 2) == 1;
+
+        GameObject spawnedEnemy = Instantiate(randType ? ennemyBlackSpawn : ennemyRedSpawn, spawnPos, Quaternion.identity);
         enemyList.Add(spawnedEnemy);
 
         EnemyBehaviour enemy = spawnedEnemy.GetComponent<EnemyBehaviour>();
-
-        bool randType = Random.Range(0, 2) == 1;
         enemy.SetType(randType ? RessourcesEnum.BlackMunition : RessourcesEnum.RedMunition);
         enemy.SetTarget(target.position);
     }
