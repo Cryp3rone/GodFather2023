@@ -4257,9 +4257,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roulette: {fileID: 5448813034704479077}
-  quantityGambledList: 64000000c8000000f4010000e8030000
   imageBetRessource: {fileID: 2039741342}
+  imageBetText: {fileID: 2045013536}
+  spritesBetRessource:
+  - {fileID: 21300000, guid: 44e394a02dace0d48a1d4f478204e17a, type: 3}
+  - {fileID: 21300000, guid: d0065df7349c49e408a2bc47c1dfcf66, type: 3}
   imageWonRessource: {fileID: 1217152535}
+  imageWonText: {fileID: 350369047}
+  spritesWonRessource:
+  - {fileID: 21300000, guid: ab6e8e152cde685439d75f20aefb3126, type: 3}
+  - {fileID: 21300000, guid: 770ec36a8ced11d46a09798bf61d0cbe, type: 3}
+  quantityGambledList: 64000000c8000000f4010000e8030000
+  imagesQuantity:
+  - {fileID: 2145315076}
+  - {fileID: 581847916}
+  - {fileID: 587389976}
+  - {fileID: 1497845141}
+  spritesQuantity100:
+  - {fileID: 21300000, guid: f6f5c27f93c73bf4d80109eb772d11b7, type: 3}
+  - {fileID: 21300000, guid: 42158f66ca3d24a4aa0fa27ea644db01, type: 3}
+  spritesQuantity200:
+  - {fileID: 21300000, guid: 076e289f0025f6444b8a02e7d6dbc97c, type: 3}
+  - {fileID: 21300000, guid: 0587d3f26b0069243a6fc096c8a91063, type: 3}
+  spritesQuantity500:
+  - {fileID: 21300000, guid: 4e81ece175fe1e64099ff98089db5cc6, type: 3}
+  - {fileID: 21300000, guid: d1a529905ea67d14881bfbbf6bd2a792, type: 3}
+  spritesQuantity1000:
+  - {fileID: 21300000, guid: 4821dddbd0d06674cb5296b424ba7031, type: 3}
+  - {fileID: 21300000, guid: e29bb2d658fb96342ad5c0ccb2acee17, type: 3}
   bell: {fileID: 953265924}
   beeps: {fileID: 953265923}
   cashIn: {fileID: 953265922}
@@ -5168,7 +5193,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 8.000016, y: 49}
+  m_AnchoredPosition: {x: 8.000015, y: 49}
   m_SizeDelta: {x: -100.8756, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1088896842

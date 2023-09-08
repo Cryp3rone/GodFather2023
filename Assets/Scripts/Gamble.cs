@@ -13,6 +13,18 @@ public class Gamble : MonoBehaviour
     private bool _timeToSpin = false;
     private float _multiplicator = 1;
     private int _quantityGambled = 0;
+
+    [Header("Bet")]
+    public Image imageBetRessource;
+    public Image imageBetText;
+    public Sprite[] spritesBetRessource = new Sprite[2];
+
+    [Header("Won")]
+    public Image imageWonRessource;
+    public Image imageWonText;
+    public Sprite[] spritesWonRessource = new Sprite[2];
+
+    [Header("Quantity")]
     public List<int> quantityGambledList = new List<int>
     {
         100,
@@ -20,10 +32,13 @@ public class Gamble : MonoBehaviour
         500,
         1000
     };
-    public Image imageBetRessource;
-    public Image imageWonRessource;
+    public Image[] imagesQuantity = new Image[4];
+    public Sprite[] spritesQuantity100 = new Sprite[2];
+    public Sprite[] spritesQuantity200 = new Sprite[2];
+    public Sprite[] spritesQuantity500 = new Sprite[2];
+    public Sprite[] spritesQuantity1000 = new Sprite[2];
 
-    //Sounds
+    [Header("Sound")]
     [SerializeField] private AudioSource bell;
     [SerializeField] private AudioSource beeps;
     [SerializeField] private AudioSource cashIn;
@@ -31,6 +46,9 @@ public class Gamble : MonoBehaviour
     private void Start()
     {
         TimeToGamble();
+       
+        //mettre en pause le jeu
+        Time.timeScale = 0;
     }
 
     // Update is called once per frame
@@ -65,18 +83,26 @@ public class Gamble : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Y))
             {
+                imagesQuantity[0].sprite = spritesQuantity100[1];
+                imagesQuantity[0].SetNativeSize();
                 QuantityGambled(quantityGambledList[0]);
             }
             if (Input.GetKeyDown(KeyCode.U))
             {
+                imagesQuantity[1].sprite = spritesQuantity200[1];
+                imagesQuantity[0].SetNativeSize();
                 QuantityGambled(quantityGambledList[1]);
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
+                imagesQuantity[2].sprite = spritesQuantity500[1];
+                imagesQuantity[0].SetNativeSize();
                 QuantityGambled(quantityGambledList[2]);
             }
             if (Input.GetKeyDown(KeyCode.O))
             {
+                imagesQuantity[3].sprite = spritesQuantity1000[1];
+                imagesQuantity[0].SetNativeSize();
                 QuantityGambled(quantityGambledList[3]);
             }
 
@@ -92,6 +118,26 @@ public class Gamble : MonoBehaviour
         }
     }
 
+    private void ResetSprites()
+    {
+        imagesQuantity[0].sprite = spritesQuantity100[0];
+        imagesQuantity[0].SetNativeSize();
+
+        imagesQuantity[1].sprite = spritesQuantity200[0];
+        imagesQuantity[1].SetNativeSize();
+
+        imagesQuantity[2].sprite = spritesQuantity500[0];
+        imagesQuantity[2].SetNativeSize();
+
+        imagesQuantity[3].sprite = spritesQuantity1000[0];
+        imagesQuantity[3].SetNativeSize();
+        
+        imageBetText.sprite = spritesBetRessource[0];
+        imageBetText.SetNativeSize();
+
+        imageWonText.sprite = spritesWonRessource[0];
+        imageWonText.SetNativeSize();
+    }
 
     //simulation
     public void TimeToGamble()
@@ -127,6 +173,8 @@ public class Gamble : MonoBehaviour
 
     public void StartWheel()
     {
+        imageBetText.sprite = spritesBetRessource[1];
+        imageBetText.SetNativeSize();
         int typeToBet = Random.Range(0, 4);
         _randomRessource = (RessourcesEnum)typeToBet;
         Debug.Log("Random Ressource:" + _randomRessource);
@@ -144,6 +192,8 @@ public class Gamble : MonoBehaviour
 
     public void TypeChosen()
     {
+        imageWonText.sprite = spritesWonRessource[1];
+        imageWonText.SetNativeSize();
         Debug.Log("Type to Receive:" + _typeChosen);
         beeps.Play();
         imageWonRessource.GetComponent<ChangementSymboles>().ChangementSymbole((int)_typeChosen);
@@ -182,6 +232,7 @@ public class Gamble : MonoBehaviour
         RessourcesManagement.Instance.AddQuantity(_typeChosen, quantityReceived);
         imageWonRessource.GetComponent<ChangementSymboles>().DisplayImage(false);
 
+        ResetSprites();
         _quantityGambled = 0;
         TimeToGamble(); 
     }
