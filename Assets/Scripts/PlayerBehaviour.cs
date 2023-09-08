@@ -16,6 +16,8 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private GameOverScript gameOverScript;
     [SerializeField] private Score scoreSystem;
+    [SerializeField] private Sprite bigLife, littleLife;
+    [SerializeField] private SpriteRenderer bigLifeRenderer, littleLifeRenderer;
 
     private float shootingCountDown;
     private GameObject target;
