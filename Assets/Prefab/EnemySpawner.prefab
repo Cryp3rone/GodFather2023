@@ -100,5 +100,8 @@ MonoBehaviour:
   spawnRange: 60
   spawnRate: 2
   spawnDifference: 0
-  ennemyToSpawn: {fileID: 9216736921725773178, guid: a1a99db2d7bbca34585a994ac6c3041c, type: 3}
+  ennemyRedSpawn: {fileID: 5566742172556832866, guid: e8f2919ac981d5f42acf7c125dfb0d31, type: 3}
+  ennemyBlackSpawn: {fileID: 1863812669539123487, guid: b9b8277e648ab1e459ffe7578c2c1ed4, type: 3}
   target: {fileID: 0}
+  canSpawn: 1
+  enemyList: []

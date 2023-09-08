@@ -33,10 +33,5 @@ public class EnemyBehaviour : MonoBehaviour
     public void SetType(RessourcesEnum randType)
     {
         type = randType;
-
-        if (type == RessourcesEnum.BlackMunition)
-            GetComponent<SpriteRenderer>().color = Color.black;
-        else
-            GetComponent<SpriteRenderer>().color = Color.red;
     }
 }

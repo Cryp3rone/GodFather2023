@@ -54,7 +54,9 @@ public class Gamble : MonoBehaviour
     {
 
         if (!_timeToGamble) return;
-        
+        if (!_hasChosenType)
+        {
+
             if (Input.GetKeyDown(KeyCode.E))
             {
                 _typeChosen = RessourcesEnum.Credits;
@@ -75,8 +77,10 @@ public class Gamble : MonoBehaviour
                 _typeChosen = RessourcesEnum.BlackMunition;
                 TypeChosen();
             }
+        }
         
-
+        if(!_hasChosenQuantity)
+        {
             if (Input.GetKeyDown(KeyCode.Y))
             {
                 imagesQuantity[0].sprite = spritesQuantity100[1];
@@ -101,9 +105,11 @@ public class Gamble : MonoBehaviour
                 imagesQuantity[3].SetNativeSize();
                 QuantityGambled(quantityGambledList[3]);
             }
-        
+        }
 
-        if (!_hasChosenQuantity && !_hasChosenType) return;
+
+
+            if (!_hasChosenQuantity && !_hasChosenType) return;
 
         if (_timeToSpin)
         {
@@ -205,6 +211,26 @@ public class Gamble : MonoBehaviour
         {
             Debug.Log("Ressources insuffisantes");
             _hasChosenQuantity = false;
+            switch(quantity)
+            {
+                case 100:
+                    imagesQuantity[0].sprite = spritesQuantity100[0];
+                    imagesQuantity[0].SetNativeSize();
+                    break;
+                    case 200:
+                    imagesQuantity[1].sprite = spritesQuantity200[0];
+                    imagesQuantity[1].SetNativeSize();
+                    break;
+                    case 500:
+                    imagesQuantity[2].sprite = spritesQuantity500[0];
+                    imagesQuantity[2].SetNativeSize();
+                    break;
+                    case 1000:
+                    imagesQuantity[3].sprite = spritesQuantity1000[0];
+                    imagesQuantity[3].SetNativeSize();
+                    break;
+            }
+
             return;
         }
         Debug.Log("Quantity chosen: " + quantity);

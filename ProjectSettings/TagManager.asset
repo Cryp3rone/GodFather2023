@@ -13,7 +13,7 @@ TagManager:
   - Water
   - UI
   - Roulette
-  - Particles
+  - 
   - 
   - 
   - 
@@ -39,12 +39,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: sol
+    uniqueID: 644132517
+    locked: 0
+  - name: playerElements
+    uniqueID: 4091805353
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: UI
-    uniqueID: 687052253
-    locked: 0
-  - name: Particles
-    uniqueID: 4208581735
+  - name: reste
+    uniqueID: 4059715873
     locked: 0
