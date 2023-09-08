@@ -8,12 +8,14 @@ using UnityEngine;
 public class PlayerBehaviour : MonoBehaviour
 {
     [SerializeField] private int health;
+    [SerializeField] private int enemyReward;
     [SerializeField] private float shootingRange;
     [SerializeField] private float shootingSpeed;
     [SerializeField] private float bulletSpeed;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private GameOverScript gameOverScript;
+    [SerializeField] private Score scoreSystem;
 
     private float shootingCountDown;
     private GameObject target;
@@ -69,6 +71,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void DestroyTarget(GameObject target, GameObject bullet)
     {
+        scoreSystem.EnemyDead(enemyReward);
         Destroy(bullet);
         Destroy(target);
         target = null;
