@@ -54,7 +54,9 @@ public class Gamble : MonoBehaviour
     {
 
         if (!_timeToGamble) return;
-        
+        if (!_hasChosenType)
+        {
+
             if (Input.GetKeyDown(KeyCode.E))
             {
                 _typeChosen = RessourcesEnum.Credits;
@@ -75,8 +77,10 @@ public class Gamble : MonoBehaviour
                 _typeChosen = RessourcesEnum.BlackMunition;
                 TypeChosen();
             }
+        }
         
-
+        if(!_hasChosenQuantity)
+        {
             if (Input.GetKeyDown(KeyCode.Y))
             {
                 imagesQuantity[0].sprite = spritesQuantity100[1];
@@ -101,9 +105,11 @@ public class Gamble : MonoBehaviour
                 imagesQuantity[3].SetNativeSize();
                 QuantityGambled(quantityGambledList[3]);
             }
-        
+        }
 
-        if (!_hasChosenQuantity && !_hasChosenType) return;
+
+
+            if (!_hasChosenQuantity && !_hasChosenType) return;
 
         if (_timeToSpin)
         {
