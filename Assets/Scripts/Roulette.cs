@@ -16,6 +16,7 @@ public class Roulette : MonoBehaviour
     public float result;
     public AnimationCurve animationCurve;
     public List<Vector2> chances; //(multiplicateur, proba)
+    public ParticleSystem particleSystemJackpot;
 
     public UnityEvent TriggerRoulette;
 
@@ -86,7 +87,11 @@ public class Roulette : MonoBehaviour
             error.Play();
         }
 
-        if(result == 7) cheers.Play();
+        if(result == 7)
+        {
+            cheers.Play();
+            particleSystemJackpot.Play();
+        }
 
     }
 }
