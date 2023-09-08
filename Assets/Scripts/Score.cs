@@ -16,6 +16,9 @@ public class Score : MonoBehaviour
     private float _animTimeCounter;
     private int _lastScore;
     [SerializeField] private AnimationCurve animationCurve;
+
+    //Popup
+    public TextMeshProUGUI ScorePopup;
     
     void Start()
     {
@@ -28,6 +31,13 @@ public class Score : MonoBehaviour
         _lastScore = TotalScore;
         TotalScore += numberToAdd;
         TotalScore = Mathf.Min(TotalScore, 99999);
+        if(numberToAdd > 0){
+            ScorePopup.text = "+" + numberToAdd.ToString();
+        }
+        else{
+            ScorePopup.text = numberToAdd.ToString();
+        }
+        ScorePopup.enabled = true;
         DisplayScore();
     }
 
@@ -60,6 +70,7 @@ public class Score : MonoBehaviour
         }
         ScoreText.text = RessourcesManagement.Instance.GetDisplayNumber((TotalScore+startScore).ToString());
         TotalScore += startScore;
+        ScorePopup.enabled = false;
     }
 
 }

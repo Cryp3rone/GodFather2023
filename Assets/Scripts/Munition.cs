@@ -19,6 +19,10 @@ public class Munition : MonoBehaviour
     private int _lastScoreRed;
     [SerializeField] private AnimationCurve animationCurve;
 
+    //popup
+    public TextMeshProUGUI MunitionBlackPopup;
+    public TextMeshProUGUI MunitionRedPopup;
+
 
     private void Start()
     {
@@ -32,6 +36,13 @@ public class Munition : MonoBehaviour
             _lastScoreBlack = BlackMunition;
             BlackMunition += ammoToAdd;
             BlackMunition = Mathf.Min(BlackMunition, 99999);
+            if(ammoToAdd>0){
+                MunitionBlackPopup.text = "+" + ammoToAdd.ToString();
+            }
+            else{
+                MunitionBlackPopup.text = ammoToAdd.ToString();
+            }
+            MunitionBlackPopup.enabled = true;
             StartCoroutine(AnimateBlack());
         }
 
@@ -40,6 +51,13 @@ public class Munition : MonoBehaviour
             _lastScoreRed = RedMunition;
             RedMunition += ammoToAdd;
             RedMunition = Mathf.Min(RedMunition, 99999);
+            if(ammoToAdd>0){
+                MunitionRedPopup.text = "+" + ammoToAdd.ToString();
+            }
+            else{
+                MunitionRedPopup.text = ammoToAdd.ToString();
+            }
+            MunitionRedPopup.enabled = true;
             StartCoroutine(AnimateRed());
         }
     }
@@ -65,6 +83,7 @@ public class Munition : MonoBehaviour
         }
         TextMunitionBlack.text = RessourcesManagement.Instance.GetDisplayNumber((BlackMunition+startScore).ToString());
         BlackMunition += startScore;
+        MunitionBlackPopup.enabled = false;
     }
 
     IEnumerator AnimateRed(){
@@ -79,5 +98,6 @@ public class Munition : MonoBehaviour
         }
         TextMunitionRed.text = RessourcesManagement.Instance.GetDisplayNumber((RedMunition+startScore).ToString());
         RedMunition += startScore;
+        MunitionRedPopup.enabled = false;
     }
 }

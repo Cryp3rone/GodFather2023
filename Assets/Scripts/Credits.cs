@@ -15,6 +15,9 @@ public class Credits : MonoBehaviour
     private int _lastCredits;
     [SerializeField] private AnimationCurve animationCurve;
 
+    //Popup
+    public TextMeshProUGUI CreditPopup;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +29,13 @@ public class Credits : MonoBehaviour
         _lastCredits = TotalCredits;
         TotalCredits += creditsToAdd;
         TotalCredits = Mathf.Min(TotalCredits, 99999);
+        if(creditsToAdd>0){
+            CreditPopup.text = "+" + creditsToAdd.ToString();
+        }
+        else{
+            CreditPopup.text = creditsToAdd.ToString();
+        }
+        CreditPopup.enabled = true;
         DisplayCredits();
     }
 
@@ -48,5 +58,6 @@ public class Credits : MonoBehaviour
         }
         ScoreCredits.text = RessourcesManagement.Instance.GetDisplayNumber((TotalCredits+startScore).ToString());
         TotalCredits += startScore;
+        CreditPopup.enabled = false;
     }
 }
