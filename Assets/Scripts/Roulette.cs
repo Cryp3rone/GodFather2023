@@ -86,7 +86,7 @@ public class Roulette : MonoBehaviour
             error.Play();
         }
 
-        if(result == chances[chances.Count-1].x) cheers.Play();
+        if(result == 7) cheers.Play();
 
     }
 }
