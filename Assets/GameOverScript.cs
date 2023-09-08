@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 public class GameOverScript : MonoBehaviour
 {
     public TextMeshProUGUI pointsText;
+    private GameObject menuPause;
+    public bool isPaused;
+
 
     public void Setup(int score)
     {
@@ -14,25 +17,31 @@ public class GameOverScript : MonoBehaviour
         pointsText.text = "Score : " + score.ToString();
     }
 
-    public void RetryButton()
-    {
-        SceneManager.LoadScene("test");
+    private void Start() {
+        menuPause = transform.GetChild(0).gameObject;
+        menuPause.SetActive(false);
     }
 
-    public void MenuButton()
-    {
-        SceneManager.LoadScene("Menu");
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape)){
+            if(isPaused){
+                pauseOFF();
+            }
+            else{
+                pauseON();
+            }
+        }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public void pauseON(){
+        Time.timeScale = 0f;
+        menuPause.SetActive(true);
+        isPaused = true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void pauseOFF(){
+        Time.timeScale = 1f;
+        menuPause.SetActive(false);
+        isPaused = false;
     }
 }
