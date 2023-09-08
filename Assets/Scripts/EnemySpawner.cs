@@ -23,13 +23,13 @@ public class EnemySpawner : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (canSpawn)
         {
             if (spawnRateCountDown >= 0)
             {
-                spawnRateCountDown -= Time.deltaTime;
+                spawnRateCountDown -= Time.fixedDeltaTime;
             }
             else
             {

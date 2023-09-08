@@ -74,30 +74,32 @@ public class Munition : MonoBehaviour
     IEnumerator AnimateBlack(){
         _animTimeCounterBlack = 0;
         int startScore = _lastScoreBlack;
-        BlackMunition -= startScore;
+        int blackMunToDisplay = BlackMunition;
+        blackMunToDisplay -= startScore;
         while(_animTimeCounterBlack < _animTimeBlack){
-            int score = Mathf.FloorToInt(BlackMunition*animationCurve.Evaluate(_animTimeCounterBlack/_animTimeBlack));
+            int score = Mathf.FloorToInt(blackMunToDisplay * animationCurve.Evaluate(_animTimeCounterBlack/_animTimeBlack));
             _animTimeCounterBlack += Time.deltaTime;
             TextMunitionBlack.text = RessourcesManagement.Instance.GetDisplayNumber((score+startScore).ToString());
             yield return 0;
         }
-        TextMunitionBlack.text = RessourcesManagement.Instance.GetDisplayNumber((BlackMunition+startScore).ToString());
-        BlackMunition += startScore;
+        TextMunitionBlack.text = RessourcesManagement.Instance.GetDisplayNumber((blackMunToDisplay +startScore).ToString());
+        blackMunToDisplay += startScore;
         MunitionBlackPopup.enabled = false;
     }
 
     IEnumerator AnimateRed(){
         _animTimeCounterRed = 0;
         int startScore = _lastScoreRed;
-        RedMunition -= startScore;
+        int redMunToDisplay = RedMunition;
+        redMunToDisplay -= startScore;
         while(_animTimeCounterRed < _animTimeRed){
-            int score = Mathf.FloorToInt(RedMunition*animationCurve.Evaluate(_animTimeCounterRed/_animTimeRed));
+            int score = Mathf.FloorToInt(redMunToDisplay * animationCurve.Evaluate(_animTimeCounterRed/_animTimeRed));
             _animTimeCounterRed += Time.deltaTime;
             TextMunitionRed.text = RessourcesManagement.Instance.GetDisplayNumber((score+startScore).ToString());
             yield return 0;
         }
-        TextMunitionRed.text = RessourcesManagement.Instance.GetDisplayNumber((RedMunition+startScore).ToString());
-        RedMunition += startScore;
+        TextMunitionRed.text = RessourcesManagement.Instance.GetDisplayNumber((redMunToDisplay + startScore).ToString());
+        redMunToDisplay += startScore;
         MunitionRedPopup.enabled = false;
     }
 }

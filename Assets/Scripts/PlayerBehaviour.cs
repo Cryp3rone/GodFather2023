@@ -19,19 +19,21 @@ public class PlayerBehaviour : MonoBehaviour
 
     private float shootingCountDown;
     private GameObject target;
+    private Animator attackAnim;
 
     // Start is called before the first frame update
     void Start()
     {
         shootingCountDown = shootingSpeed;
+        attackAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (shootingCountDown >= 0)
         {
-            shootingCountDown -= Time.deltaTime;
+            shootingCountDown -= Time.fixedDeltaTime;
         }
         else
         {
@@ -61,10 +63,13 @@ public class PlayerBehaviour : MonoBehaviour
         if (target != null && Vector2.Distance(transform.position, target.transform.position) < shootingRange)
         {
             RessourcesManagement.Instance.AddQuantity(target.GetComponent<EnemyBehaviour>().type, -1);
+
             Vector3 dir = target.transform.position - transform.position;
             var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             var rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
             GameObject bullet = Instantiate(bulletPrefab, transform.position, rotation);
+
+            attackAnim.SetTrigger("attack");
             bullet.transform.DOMove(target.transform.position, bulletSpeed).SetEase(Ease.InQuad).OnComplete( () => DestroyTarget(target, bullet));
         }
     }
@@ -74,7 +79,6 @@ public class PlayerBehaviour : MonoBehaviour
         scoreSystem.EnemyDead(enemyReward);
         Destroy(bullet);
         Destroy(target);
-        target = null;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

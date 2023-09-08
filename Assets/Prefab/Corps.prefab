@@ -805,11 +805,10 @@ MonoBehaviour:
   health: 3
   enemyReward: 10
   shootingRange: 2.5
-  shootingSpeed: 0.5
-  bulletSpeed: 0.4
+  shootingSpeed: 0.3
+  bulletSpeed: 0.1
   bulletPrefab: {fileID: 2157717709024058140, guid: 26997eaf389a1dd4fbdf5393e95687d7, type: 3}
   enemySpawner: {fileID: 0}
-  gameOverScript: {fileID: 0}
   scoreSystem: {fileID: 0}
   bigLife: {fileID: 21300000, guid: a927c0b988dba0a45a9f09c1a7377c1e, type: 3}
   littleLife: {fileID: 21300000, guid: 3d7cf9826afb7f843956363a7d77de01, type: 3}
