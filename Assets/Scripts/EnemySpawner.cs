@@ -10,7 +10,10 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject ennemyToSpawn;
     [SerializeField] private Transform target;
     
-    private float spawnRateCountDown; 
+    private float spawnRateCountDown;
+    
+    public bool canSpawn = true;
+    public List<GameObject> enemyList = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -21,14 +24,17 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (spawnRateCountDown >= 0)
+        if (canSpawn)
         {
-            spawnRateCountDown -= Time.deltaTime;
-        }
-        else
-        {
-            SpawnEnnemies();
-            spawnRateCountDown = spawnRate;
+            if (spawnRateCountDown >= 0)
+            {
+                spawnRateCountDown -= Time.deltaTime;
+            }
+            else
+            {
+                SpawnEnnemies();
+                spawnRateCountDown = spawnRate;
+            }
         }
     }
 
@@ -36,6 +42,7 @@ public class EnemySpawner : MonoBehaviour
     {
         Vector3 spawnPos = Random.insideUnitCircle.normalized * spawnRange;
         GameObject spawnedEnemy = Instantiate(ennemyToSpawn, spawnPos, Quaternion.identity);
+        enemyList.Add(spawnedEnemy);
 
         EnemyBehaviour enemy = spawnedEnemy.GetComponent<EnemyBehaviour>();
 
